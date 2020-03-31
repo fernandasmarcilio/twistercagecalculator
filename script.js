@@ -1,56 +1,53 @@
 function calcularQuantidadeRatos() {
-  const validation = inputValidation();
+  let inputValidation = inputNumberValidation();
+
   const altura = parseInt(document.getElementById("altura").value);
   const largura = parseInt(document.getElementById("largura").value);
   const profundidade = parseInt(document.getElementById("profundidade").value);
 
   const resultado = Math.floor((altura * largura * profundidade) / 70792);
 
-  let textoResultado = resultado <= 1 ? "Sua gaiola não é ideal para ratos, use-o apenas para transporte.": `Sua gaiola cabe ${resultado} ratos.`;
+  let textoResultado = "";
+  console.log(inputValidation)
 
-  if(validation) {
-    textoResultado = "Preencha os campos acima";
+  if(inputValidation) {
+    if(altura < 40 || largura < 40 || profundidade < 40) {
+        textoResultado = "Sua gaiola não é ideal para ratos, use-o apenas para transporte."
+      } else {
+        if(resultado >= 1) {
+          textoResultado = `Sua gaiola cabe ${resultado} ratos.`
+        } 
+      }
+  } else {
+    textoResultado = "Preencha os campos acima."
   }
-
+  
   document.getElementById("resultado").innerText = textoResultado;
 
-
+  if(inputValidation) clearInput();
 }
 
-function inputValidation() {
-  const altura = document.getElementById("altura");
-  const largura = document.getElementById("largura");
-  const profundidade = document.getElementById("profundidade");
-  let isEmpty = false;
+function inputNumberValidation() {
+  const altura = inputIsEmpty(document.getElementById("altura"));
+  const largura = inputIsEmpty(document.getElementById("largura"));
+  const profundidade = inputIsEmpty(document.getElementById("profundidade"));
 
-  if(altura.value === ""){
-    altura.style.border = "1px solid #cc516a"
-    isEmpty = true;
-  }else{
-    altura.style.border = "0"
-    isEmpty = false;
-  }
-
-  if(largura.value === ""){
-    largura.style.border = "1px solid #cc516a"
-    isEmpty = true;
-  }else{
-    largura.style.border = "0"
-    isEmpty = false;
-  }
-
-  if(profundidade.value === ""){
-    profundidade.style.border = "1px solid #cc516a"
-    isEmpty = true;
-  }else{
-    profundidade.style.border = "0"
-    isEmpty = false;
-  }
-
-  return isEmpty;
-
+  return altura && largura && profundidade;
 }
+
+function inputIsEmpty(input) {
+  console.log(parseInt(input.value));
+
+  if(input.value === ""){
+      input.style.border = "1px solid #cc516a"
+      return false;
+    }else{
+      input.style.border = "0"
+      return true;
+    }
+}
+
 
 function clearInput(e) {
-    e.value = "";
+  e.value = ""
 }
