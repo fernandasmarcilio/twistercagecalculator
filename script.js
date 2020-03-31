@@ -36,8 +36,6 @@ function inputNumberValidation() {
 }
 
 function inputIsEmpty(input) {
-  console.log(parseInt(input.value));
-
   if(input.value === ""){
       input.style.border = "1px solid #cc516a"
       return false;
